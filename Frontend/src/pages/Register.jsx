@@ -112,7 +112,7 @@ const Register = () => {
               loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#36A420]"
             }`}
             type="submit"
-            value={loading ? "sibn up in..." : "sign up"}
+            value={loading ? "sign up in..." : "sign up"}
             disabled={loading}
           />
         </form>

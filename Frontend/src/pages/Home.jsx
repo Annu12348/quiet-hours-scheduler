@@ -1,15 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navigation from "../components/Navigation";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
+import { instance } from "../utils/axios";
+import { setBlocks } from "../reducer/Authentication/BlockSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const { blocks } = useSelector((store) => store.block);
+  console.log(blocks);
+
+  const listApi = async () => {
+    try {
+      const response = await instance.get("/block/list", {
+        withCredentials: true,
+      });
+      dispatch(setBlocks(response.data.blocks));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    listApi();
+  }, []);
+
   return (
-    <div className="w-full h-screen bg-zinc-200  ">
+    <div className="w-full h-screen bg-zinc-200 p-[0.1px]  ">
       <Navigation />
-      <div className="w-[100%] h-[90.5%] bg-zinc-200 flex items-center justify-center">
-        <div className="w-[95%] rounded-lg p-6  min-h-[90%] bg-white">
-          <Link className="text-xl flex items-center justify-center w-fit gap-1  capitalize font-semibold bg-blue-800 px-3 rounded py-2 text-white">
+      <div className="w-[100%] min-h-[90.9%] bg-zinc-700 mt-16 flex items-center justify-center">
+        <div className="w-[95%] rounded-lg p-6 mt-7  min-h-[90%] bg-white">
+          <Link
+            to="/crete-block"
+            className="text-xl flex items-center justify-center w-fit gap-1  capitalize font-semibold bg-blue-800 px-3 rounded py-2 text-white"
+          >
             <span className="text-2xl mt-0.5 rotate-45 ">
               <IoMdClose />
             </span>
@@ -19,7 +44,6 @@ const Home = () => {
             <div className="overflow-x-auto">
               <table className="min-w-full bg-white  rounded-lg">
                 <thead>
-
                   <tr>
                     <th className="py-3 px-6  border-b text-left text-gray-700 font-semibold">
                       Block Name
@@ -34,30 +58,39 @@ const Home = () => {
                       Actions
                     </th>
                   </tr>
-
                 </thead>
                 <tbody>
-
-                  <tr>
-                    <td className="py-2 px-6 border-b text-zinc-300">Example Block</td>
-                    <td className="py-2 px-6 border-b text-zinc-300">10:00 AM</td>
-                    <td className="py-2 px-6 border-b text-zinc-300">12:00 PM</td>
-                    <td className="py-2 px-6 border-b text-zinc-300">
-                      <button className="bg-blue-600 text-white px-3 py-1 rounded mr-2 hover:bg-blue-700 text-sm">
-                        Edit
-                      </button>
-                      <button className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 text-sm">
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-
-
-
-
-
+                  {blocks.length > 0 ?  (
+                    blocks.map((block) => (
+                      <tr key={block._id}>
+                        <td className="py-2 px-6 border-b text-zinc-300">
+                          {block.title}
+                        </td>
+                        <td className="py-2 px-6 border-b text-zinc-300">
+                          {new Date(block.startTime).toLocaleString()}
+                        </td>
+                        <td className="py-2 px-6 border-b text-zinc-300">
+                          {new Date(block.endTime).toLocaleString()}
+                        </td>
+                        <td className="py-2 px-6 border-b text-zinc-300">
+                          <Link to='/Update-block' className="bg-blue-600 text-white px-3 py-1 rounded mr-2 hover:bg-blue-700 text-sm">
+                            Edit
+                          </Link>
+                          <button className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 text-sm">
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="4" className="py-4 px-6 text-center text-zinc-400">
+                        No blocks
+                      </td>
+                    </tr>
+                  )
                   
-                  {/* Add more rows as needed */}
+                }
                 </tbody>
               </table>
             </div>

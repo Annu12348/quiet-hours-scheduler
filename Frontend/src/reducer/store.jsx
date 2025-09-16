@@ -1,6 +1,7 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import AuthenticationReducer from "../reducer/Authentication/AuthenticationSlice"
 import storage from "redux-persist/lib/storage"
+import BlockReducer from "../reducer/Authentication/BlockSlice"
 import {
   persistReducer,
   persistStore,
@@ -20,6 +21,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   Auth: AuthenticationReducer,
+  block: BlockReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

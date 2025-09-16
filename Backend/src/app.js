@@ -13,6 +13,7 @@ app.use(
 );
 app.use(cookieParser());
 app.use(express.json());
+app.use(express.urlencoded({extends: true}))
 
 app.use("/auth", authRoutes);
 app.use("/block", blockRoutes)

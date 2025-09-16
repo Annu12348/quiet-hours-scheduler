@@ -13,7 +13,6 @@ const Navigation = () => {
   const navigate = useNavigate();
   const { user } = useSelector((store) => store.Auth);
   const [isOpen, setIsOpen] = useState(false);
-  console.log(user);
 
   const logoutApi = async () => {
     try {
@@ -48,7 +47,7 @@ const Navigation = () => {
   };
   return (
     <div className="   ">
-      <div className="flex items-center px-10  bg-zinc-400 justify-between p-3 w-full">
+      <div className="flex items-center fixed px-10  bg-zinc-400 justify-between p-3 w-full">
         <Link
           to="/"
           className="text-white z-20 md:text-xl leading-none  font-semibold capitalize tracking-tight"

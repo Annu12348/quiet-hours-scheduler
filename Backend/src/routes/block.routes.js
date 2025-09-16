@@ -6,4 +6,5 @@ const router = express.Router();
 
 router.post("/createblock", blockValidator, authMiddleware,  blockController)
 
+
 export default router;

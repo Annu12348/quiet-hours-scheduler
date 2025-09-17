@@ -102,3 +102,31 @@ export const logoutController = async (req, res) => {
     });
   }
 };
+
+export const me = (req, res) => {
+  const token = req.cookies.token;
+  
+
+  if(!token){
+    return res.status(401).json({
+      message: "unauthorized token"
+    })
+  }
+
+  try{
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    
+
+    res.status(200).json({
+      message: "me routes",
+      user: {
+        id: decoded.userId
+      }
+    })
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Something went wrong while fetching user data. Please try again later.",
+    });
+  }
+}

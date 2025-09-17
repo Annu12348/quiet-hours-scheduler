@@ -11,14 +11,17 @@ const blockSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      unique: true,
     },
     startTime: {
       type: Date,
       required: true,
+      unique: true,
     },
     endTime: {
       type: Date,
       required: true,
+      unique: true,
       validate: {
         validator: function (value) {
           return value > this.startTime; // endTime must be greater

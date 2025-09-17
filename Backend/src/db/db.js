@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 import { config } from "../config/config.js";
 
+
+
+import '../controller/scheduler.controller.js'
+
+
 function databaseconnection() {
     mongoose.connect(config.MONGODB_URL, {
         useNewUrlParser: true,

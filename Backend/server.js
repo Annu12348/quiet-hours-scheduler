@@ -2,6 +2,7 @@ import { config } from "./src/config/config.js";
 import app from "./src/app.js";
 import databaseconnection from "./src/db/db.js";
 
+
 databaseconnection();
 
 app.listen(3000, () => {

@@ -13,7 +13,7 @@ const Protected = ({ children }) => {
   const meRoutesget = () => {
     instance.get("/auth/me", { withCredentials: true })
       .then(response => {
-        console.log(response.data);
+        
       })
       .catch((error) => {
         console.error(error);

@@ -2,8 +2,7 @@ import mongoose from "mongoose";
 import { config } from "../config/config.js";
 
 
-
-//import '../controller/scheduler.controller.js'
+import '../controller/scheduler.controller.js'
 
 
 function databaseconnection() {

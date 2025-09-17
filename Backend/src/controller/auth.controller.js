@@ -27,7 +27,12 @@ export const registerController = async (req, res) => {
     const token = jwt.sign({ id: user._id }, config.JWT_SECRET_KEY, {
       expiresIn: "7d",
     });
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: isProduction ? true : false, //prod = true, local = false
+      sameSite: "none", //prod = none, local = lax
+      path: "/",
+    });
 
     res.status(201).json({
       message: "User registered successfully",
@@ -68,7 +73,12 @@ export const loginController = async (req, res) => {
     const token = jwt.sign({ id: user._id }, config.JWT_SECRET_KEY, {
       expiresIn: "7d",
     });
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: isProduction ? true : false, //prod = true, local = false
+      sameSite: "none", //prod = none, local = lax
+      path: "/",
+    });
 
     res.status(200).json({
       message: "User login successfully",
@@ -120,7 +130,7 @@ export const me = (req, res) => {
     res.status(200).json({
       message: "me routes",
       user: {
-        id: decoded.userId
+        id: decoded.id
       }
     })
   } catch (error) {

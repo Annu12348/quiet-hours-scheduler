@@ -2,9 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { instance } from "../utils/axios";
 import React, { useEffect } from "react";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setUser } from "../reducer/Authentication/AuthenticationSlice";
 
 const Protected = ({ children }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   
   const meRoutesget = () => {
@@ -22,6 +25,7 @@ const Protected = ({ children }) => {
           toast.error("An error occurred while authenticating.");
         }
         navigate("/login");
+        dispatch(setUser(null))
       });
   };
 

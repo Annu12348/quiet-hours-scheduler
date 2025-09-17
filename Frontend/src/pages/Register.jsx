@@ -25,7 +25,6 @@ const Register = () => {
       const response = await instance.post("/auth/register", value, {
         withCredentials: true,
       });
-      console.log(response.data.user);
       dispatch(setUser(response.data.user));
       toast.success(response.data.message || "Registration successful!");
       navigate("/login");
@@ -49,7 +48,6 @@ const Register = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(value);
     RegisterApi();
   };
 

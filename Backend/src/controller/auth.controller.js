@@ -2,10 +2,14 @@ import userModel from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { config } from "../config/config.js";
+import dotenv from "dotenv"
+dotenv.config()
+
+const isProduction = process.env.NODE_ENV === "production";
 
 export const registerController = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password } = req.body; 
 
     const isUserExists = await userModel.findOne({
       $or: [{ name }, { email }],
@@ -24,6 +28,7 @@ export const registerController = async (req, res) => {
       password: hashedPassword,
     });
 
+    console.log("JWT Secret Key:", process.env.JWT_SECRET_KEY);
     const token = jwt.sign({ id: user._id }, config.JWT_SECRET_KEY, {
       expiresIn: "7d",
     });
@@ -124,7 +129,7 @@ export const me = (req, res) => {
   }
 
   try{
-    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const decoded = jwt.verify(token, config.JWT_SECRET_KEY);
     
 
     res.status(200).json({
